@@ -4,6 +4,7 @@ import { PeriodicElement } from '../models/team';
 import { MatSort } from '@angular/material/sort';
 import { CdkDropList, moveItemInArray, CdkDragStart } from '@angular/cdk/drag-drop';
 
+// Input
 const ELEMENT_DATA: PeriodicElement[] = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
@@ -31,7 +32,14 @@ export class TeamsComponent implements OnInit, AfterViewInit {
   data:any;
 
   // table header
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  // Input
+  columns: any[] = [
+    {key:'position'}, 
+    {key:'name'}, 
+    {key:'weight'}, 
+    {key:'symbol'}
+  ];
+  displayedColumns: string[] = [];
   previousIndex: number;
 
   constructor() { }
@@ -41,6 +49,7 @@ export class TeamsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.applySort();
+    this.setDisplayedColumns();
   }
 
   // TODO : add interface
@@ -62,10 +71,10 @@ export class TeamsComponent implements OnInit, AfterViewInit {
   }
 
   setDisplayedColumns() {
-    this.displayedColumns.forEach(( colunm, index) => {
-      console.log('colunm, index: ', colunm, index);
-      // colunm.index = index;
-      // this.displayedColumns[index] = colunm.field;
+    this.columns.forEach(( column, index) => {
+      console.log('column, index: ', column, index);
+      // column.index = index;
+      this.displayedColumns[index] = column.key;
     });
   }
 
