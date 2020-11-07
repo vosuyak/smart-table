@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { PeriodicElement } from '../models/team';
 import { MatSort } from '@angular/material/sort';
-import { CdkDropList, moveItemInArray, CdkDragStart } from '@angular/cdk/drag-drop';
+import { CdkDropList, moveItemInArray, CdkDragStart, CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 
 // Input
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -23,6 +23,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.scss']
 })
+
 export class TeamsComponent implements OnInit, AfterViewInit {
   //view child
   @ViewChild(MatSort) sort: MatSort;
@@ -70,24 +71,12 @@ export class TeamsComponent implements OnInit, AfterViewInit {
     this.columnResize == true ? false:true;
   }
 
-  setDisplayedColumns() {
-    this.columns.forEach(( column, index) => {
-      console.log('column, index: ', column, index);
-      // column.index = index;
-      this.displayedColumns[index] = column.key;
-    });
+  setDisplayedColumns = ():void => {
+    this.columns.forEach(( column, index) => { this.displayedColumns[index] = column.key });
   }
 
-  dragStarted(event: CdkDragStart, index: number ) {
-    console.log(event, index);
-    this.previousIndex = index;
+  drop = (event: CdkDragDrop<string[]>):void => {
+    moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
   }
-  
-  dropList = (event: CdkDropList, index: number) => {
-    console.log(event, index);
-    if (event) {
-      moveItemInArray(this.displayedColumns, this.previousIndex, index);
-      this.setDisplayedColumns();
-    }
-  }
+
 }
