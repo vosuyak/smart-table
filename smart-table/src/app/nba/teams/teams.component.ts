@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { PeriodicElement } from '../models/team';
+import { MatSort } from '@angular/material/sort';
+import { CdkDropList, moveItemInArray, CdkDragStart } from '@angular/cdk/drag-drop';
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -20,20 +22,63 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.scss']
 })
-export class TeamsComponent implements OnInit {
+export class TeamsComponent implements OnInit, AfterViewInit {
+  //view child
+  @ViewChild(MatSort) sort: MatSort;
+  columnResize:boolean = true;
+  
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   data:any;
+
+  // table header
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  previousIndex: number;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.applySort();
+  }
+
+  // TODO : add interface
+  getData = ():void => {
     this.data = this.dataSource.filteredData;
   }
-  
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
 
-  applyFilter(event: Event) {
+  applyFilter = (event: Event):void => {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  applySort = ():void => {
+    this.dataSource.sort = this.sort;
+  }
+
+  toggleResizableColumn = ():void => {
+    this.columnResize == true ? false:true;
+  }
+
+  setDisplayedColumns() {
+    this.displayedColumns.forEach(( colunm, index) => {
+      console.log('colunm, index: ', colunm, index);
+      // colunm.index = index;
+      // this.displayedColumns[index] = colunm.field;
+    });
+  }
+
+  dragStarted(event: CdkDragStart, index: number ) {
+    console.log(event, index);
+    this.previousIndex = index;
+  }
+  
+  dropList = (event: CdkDropList, index: number) => {
+    console.log(event, index);
+    if (event) {
+      moveItemInArray(this.displayedColumns, this.previousIndex, index);
+      this.setDisplayedColumns();
+    }
   }
 }
