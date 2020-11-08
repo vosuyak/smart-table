@@ -1,4 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    background-color: #eeeeee;
+}
+
+header{
+    padding: 1.2em;
+    background-color: white;
+    .image{
+        height: 40px;
+        width: 40px;
+        img{
+            height: 100%;
+        }
+    }
+}
+
+.mat-drawer-container{
+    height: 100vh;
+}
