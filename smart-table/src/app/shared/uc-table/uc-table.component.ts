@@ -3,6 +3,7 @@ import { MatSort } from '@angular/material/sort';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Shared } from '../shared';
 
 @Component({
   selector: 'uc-table',
@@ -11,7 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 
 
-export class UcTableComponent implements OnInit, AfterViewInit,AfterContentChecked {
+export class UcTableComponent extends Shared implements OnInit, AfterViewInit,AfterContentChecked {
   // Inputs
   @Input() metaData: any;
   @Input() data: any;
@@ -31,13 +32,12 @@ export class UcTableComponent implements OnInit, AfterViewInit,AfterContentCheck
   isFilter: boolean = false;
   dropDownOptions:any;
 
-  constructor(private ref: ChangeDetectorRef) { }
+  constructor(private ref: ChangeDetectorRef) {
+    super()
+  }
 
   ngOnChanges(): void {
-    this.setDisplayedColumns();
-    this.applySort();
-    this.applyPagination();
-    this.ref.markForCheck();
+    this.dataSourceInit();
   }
 
   ngOnInit(): void {
@@ -49,35 +49,50 @@ export class UcTableComponent implements OnInit, AfterViewInit,AfterContentCheck
   ngAfterViewInit(): void {
   }
 
+  // default filter
   applyFilter = (event: Event): void => {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  // set data to columns
+  dataSourceInit = () => {
+    this.dataSource = this.tableData(this.data);
+    this.dropDownOptions = this.data; 
+    this.applySort(); 
+    this.applyPagination(); 
+    this.setDisplayedColumns();
+  }
+  
+  // default sort
   applySort = (): void => {
     this.dataSource.sort = this.sort;
   }
 
+  // default resize columns
   toggleResizableColumn = (): void => {
     this.columnResize == true ? false : true;
   }
 
+  // default pagination
   applyPagination = ():void => {
     this.dataSource.paginator = this.paginator;
   }
 
+  // Get data from Input
   setDisplayedColumns = (): void => {
-    this.dataSource = this.data;   
-    console.log('this.dataSource: ', this.dataSource);
-    this.dropDownOptions = this.data.filteredData; 
-    this.metaData.forEach((column, index) => { this.displayedColumns[index] = column.key });
-    this.columns = this.metaData;
+    if (this.data != undefined){
+      this.metaData.forEach((column, index) => { this.displayedColumns[index] = column.key });
+      this.columns = this.metaData;
+    }
   }
-
+  
+  // re-arrange columns 
   drop = (event: CdkDragDrop<string[]>): void => {
     moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
   }
 
+  // show dropdown
   dropdown = (event: any): void => {
     let name = event.target.value
     if (name.length >= 2) {
@@ -90,6 +105,7 @@ export class UcTableComponent implements OnInit, AfterViewInit,AfterContentCheck
   getRow = (row) => {
   }
 
+  // smart filter, moves selected item to top
   filterItem = (array, obj:any) => {
     let index = array.indexOf(obj)
     array.unshift(obj)

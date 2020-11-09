@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterContentInit, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Shared } from '../../shared/shared';
 import { NbaService } from '../nba.service';
@@ -11,7 +11,7 @@ import { NbaService } from '../nba.service';
 
 export class PlayersComponent extends Shared implements OnInit, AfterViewInit, OnDestroy {
   sub: Subscription;
-  testData:any;
+  testData:any = [];
   columns: any[] = [
     {key:'id'}, 
     {key:'first_name'}, 
@@ -21,7 +21,7 @@ export class PlayersComponent extends Shared implements OnInit, AfterViewInit, O
     {key:'position'}
   ];
 
-  constructor(private service:NbaService) {
+  constructor(private service:NbaService, private ref: ChangeDetectorRef) {
     super()
   }
 
@@ -36,9 +36,10 @@ export class PlayersComponent extends Shared implements OnInit, AfterViewInit, O
     this.sub.unsubscribe();
   }
 
+  // api call, stores response into variable
   getPlayers = () => {
     this.sub = this.service.get(`/api/v1/players`).subscribe( data => {
-      this.testData =  this.tableData(data.data);
+      this.testData =  data.data;
     },
     e => {},
     () =>{

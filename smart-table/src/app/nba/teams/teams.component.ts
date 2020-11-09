@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 
 export class TeamsComponent extends Shared implements OnInit, AfterViewInit {
-  testData:any;
+  testData:any = [];
   columns: any[] = [
     {key:'id'}, 
     {key:'abbreviation'}, 
@@ -33,16 +33,14 @@ export class TeamsComponent extends Shared implements OnInit, AfterViewInit {
     this.getTeams();
   }
 
-  ngAfterContentChecked():void {
-  }
-
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
+  // get teams
   getTeams = () => {
     this.sub = this.service.get(`/api/v1/teams`).subscribe( data => {
-      this.testData =  this.tableData(data.data);
+      this.testData =  data.data;
     },
     e => {},
     () =>{

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Shared } from '../../shared/shared';
 // Input
 const ELEMENT_DATA: any[] = [
@@ -13,8 +13,9 @@ const ELEMENT_DATA: any[] = [
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent extends Shared  implements OnInit {
-  testData = this.tableData(ELEMENT_DATA);
+
+export class TableComponent extends Shared  implements OnInit, AfterViewInit {
+  testData:any = [];
   columns: any[] = [
     {key:'inputs'}, 
     {key:'output'}, 
@@ -25,10 +26,15 @@ export class TableComponent extends Shared  implements OnInit {
     {key:'status'}
   ];
 
-  constructor() {
+  constructor(private ref: ChangeDetectorRef) {
     super()
   }
+
   ngOnInit(): void {
   }
 
+  ngAfterViewInit(): void {
+    this.testData = ELEMENT_DATA;
+    this.ref.markForCheck();
+  }
 }

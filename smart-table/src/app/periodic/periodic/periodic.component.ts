@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentChecked } from '@angular/core';
 import { Shared } from '../../shared/shared';
 // Input
 const ELEMENT_DATA: any[] = [
@@ -19,8 +19,8 @@ const ELEMENT_DATA: any[] = [
   templateUrl: './periodic.component.html',
   styleUrls: ['./periodic.component.scss']
 })
-export class PeriodicComponent extends Shared  implements OnInit {
-  testData = this.tableData(ELEMENT_DATA);
+export class PeriodicComponent extends Shared  implements OnInit, AfterViewInit, AfterContentChecked {
+  testData:any = [];
   columns: any[] = [
     {key:'position'}, 
     {key:'name'}, 
@@ -32,6 +32,12 @@ export class PeriodicComponent extends Shared  implements OnInit {
     super()
   }
   ngOnInit(): void {
+  }
+
+  ngAfterContentChecked():void {
+    this.testData = ELEMENT_DATA;    
+  }
+  ngAfterViewInit(): void {
   }
 
 }
