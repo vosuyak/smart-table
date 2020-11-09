@@ -1,0 +1,26 @@
+.table-container {
+    padding: .5em 1.5em 0 1.5em;
+    table{
+        width:100%
+    }
+}
+.dropdown-list{
+    ul{
+    position: absolute;
+    list-style-type: none;
+    background-color: white;
+    width: 100%;
+    padding: .5em;
+    border: solid 1px lightcoral;
+    border-radius: 9px;
+    z-index: 2;
+        li{
+            padding: .4em 0;
+        }
+    }
+}
+
+td.mat-cell.resize{
+        resize: horizontal !important;
+        overflow: auto !important;
+}

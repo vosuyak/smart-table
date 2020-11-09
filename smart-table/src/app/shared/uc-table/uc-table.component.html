@@ -1,0 +1,56 @@
+<div *ngIf="dataSource != undefined; else showSpinner"  class="table-container">
+    <div *ngIf="filterDropdown; else default"  class="filter-fixed">
+        <mat-form-field>
+            <mat-label>Filter Dropdown</mat-label>
+            <input matInput (keyup)="dropdown($event)" [(ngModel)]="filterSearch" type="text">
+            <div *ngIf="isFilter" class="dropdown-list">
+                    <ul>
+                        <li *ngFor="let item of dropDownOptions" (click)="filterItem(dropDownOptions, item)">{{item.name}}</li>
+                    </ul>
+            </div>
+        </mat-form-field>
+    </div>
+    <ng-template #default>
+        <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+    </ng-template>
+    
+    <table 
+        mat-table 
+        [dataSource]="dataSource" 
+        matSort 
+        class="mat-elevation-z8" 
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)">
+        <!-- Columns -->
+        <ng-container *ngFor="let column of columns" matColumnDef={{column.key}} >
+            <!-- table header a.k.a column names -->
+            <th mat-header-cell 
+                *matHeaderCellDef
+                mat-sort-header 
+                cdkDrag>{{column.key}}</th>
+            <!-- Data for each column -->
+            <td mat-cell [ngClass]="{'resize' : columnResize == true}"  class="resize" *matCellDef="let element">
+                <div>{{ element[column.key] }}</div>
+            </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getRow(row)"></tr>
+    
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter</td>
+        </tr>
+    </table>
+
+    <div *ngIf="pagination">
+        <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>
+<ng-template #showSpinner>
+    <mat-spinner></mat-spinner>
+</ng-template>
