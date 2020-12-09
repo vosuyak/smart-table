@@ -1,8 +1,34 @@
 <main>
     <section>
-        <uc-table [metaData]="columns" [data]="testData" [filterDropdown]="false" [pagination]="true" [columnResize]="false"></uc-table>
+        <!-- <uc-table [metaData]="columns" [data]="testData" [filterDropdown]="false" [pagination]="true" [columnResize]="false"></uc-table> -->
+        <div *ngIf="players$ | async as players; else notFound" >
+            <player-card *ngFor="let player of players" 
+                id="{{player.id}}"
+                first_name="{{player.first_name}}"
+                last_name="{{player.last_name}}"
+                height_feet="{{player.height_feet}}"
+                position="{{player.position}}"
+                [team]="player.team"
+                weight_pounds="{{player.weight_pounds}}"
+                (playerTeam)="getTeam($event)"
+            ></player-card>
+        </div>
+        <ng-template #notFound>
+            <mat-card>
+                <mat-card-header>
+                  <mat-card-title>No data</mat-card-title>
+                </mat-card-header>
+            </mat-card>
+        </ng-template>
     </section>
     <aside>
-        <favorite-players></favorite-players>
+        <mat-card *ngIf="playersTeam" class="player-card">
+            <mat-card-header>
+                <mat-card-title>{{playersTeam.player_name}}</mat-card-title>
+                <mat-card-title><b>{{playersTeam.name}}</b> {{playersTeam.abbreviation | uppercase}}</mat-card-title>
+                <mat-card-subtitle><b>{{playersTeam.conference}}</b> conference</mat-card-subtitle>
+                <mat-card-subtitle> <b>{{playersTeam.division}}</b> division</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
     </aside>
 </main>
