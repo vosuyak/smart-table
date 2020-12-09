@@ -12,10 +12,6 @@ const routes: Routes = [
     loadChildren: () => import('./nba/nba.module').then(m => m.NbaModule)
   },
   {
-    path: 'periodic',
-    loadChildren: () => import('./periodic/periodic.module').then(m => m.PeriodicModule)
-  },
-  {
     path: 'task',
     loadChildren: () => import('./task/task.module').then(m => m.TaskModule)
   }
