@@ -8,10 +8,11 @@ import { NbaService } from './nba.service';
 import { PlayersComponent } from './players/players.component';
 import { FavoritePlayersComponent } from './favorite-players/favorite-players.component';
 import { MaterialModule } from '../core/material/material.module';
+import { PlayerCardComponent } from './player-card/player-card.component';
 
 
 @NgModule({
-  declarations: [TeamsComponent, PlayersComponent, FavoritePlayersComponent],
+  declarations: [TeamsComponent, PlayersComponent, FavoritePlayersComponent, PlayerCardComponent],
   exports:[FavoritePlayersComponent],
   imports: [
     CommonModule,

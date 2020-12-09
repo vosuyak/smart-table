@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 const ELEMENT_DATA: any[] = [
   {question: 'Sort and Search by table?', answer: 'Can be seen in the "uc-table" component, @Input details found in "table component" page, custom filter can be used by passing Input "filterDropdown" == true'},
   {question: 'Persist sorting on refresh?', answer: 'Unable to do so in this current version, but a work around can be done by saving "th" in the browsers localStorage'},
+  {question: 'Input and Output?', answer: 'player card takes in inputs as a presenter component and emits data via. output to parent components'},
+  {question: 'Observables?', answer: 'Async calling on the players api, used on the players component. ng-template used for html conditional logic'},
   {question: 'Drag and Drop columns?', answer: 'Re-organize column index value seen in "uc-table"'},
   {question: 'Ability to resize?', answer: '"uc-table" allows resizing by passing Input resizable == true, done by CSS'},
   {question: 'NgRx used?', answer: 'State Management of total free agents can be seen on the "nba players" page'},

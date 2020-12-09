@@ -1,16 +1,21 @@
 import { Component, OnInit, AfterContentInit, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Shared } from '../../shared/shared';
 import { NbaService } from '../nba.service';
+import { IPlayer } from '../models/player';
+import { mergeMap, map, catchError, concatMap } from 'rxjs/operators';
+import { ITeam } from '../models/team';
 
 @Component({
-  selector: 'app-players',
+  selector: 'nba-players',
   templateUrl: './players.component.html',
   styleUrls: ['./players.component.scss']
 })
 
 export class PlayersComponent extends Shared implements OnInit, AfterViewInit, OnDestroy {
   sub: Subscription;
+  players$:Observable<IPlayer[]>;
+  playersTeam:ITeam;
   testData:any = [];
   columns: any[] = [
     {key:'id'}, 
@@ -33,16 +38,16 @@ export class PlayersComponent extends Shared implements OnInit, AfterViewInit, O
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   // api call, stores response into variable
   getPlayers = () => {
-    this.sub = this.service.get(`/api/v1/players`).subscribe( data => {
-      this.testData =  data.data;
-    },
-    e => {},
-    () =>{
-    })
+    this.players$ = this.service.get(`/api/v1/players`).pipe(
+      map( i => i.data)
+    )
+  }
+
+  getTeam = (value) => {
+    this.playersTeam = value;
   }
 }
