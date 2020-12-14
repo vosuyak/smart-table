@@ -23,7 +23,7 @@ export class NbaService {
   }
 
   // players observable used for the ngrx effects
-  nbaPlayers = () => {
+  nbaPlayers = () :Observable<any> => {
     let url = `${this.baseUrl}/api/v1/players`;
     return this.http.get<IPlayer[]>(url).pipe(
       map(

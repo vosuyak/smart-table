@@ -27,17 +27,18 @@ export class TeamsComponent extends Shared implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.getTeams();
   }
 
   ngAfterViewInit(): void {
-    this.getTeams();
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
 
-  // get teams
+  // get teams by passing path to the global observable of get
+  // unsubscribe to the subscription in the ondestroy life cycle
   getTeams = () => {
     this.sub = this.service.get(`/api/v1/teams`).subscribe( data => {
       this.testData =  data.data;

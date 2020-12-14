@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ITeam } from '../models/team';
 import { IPlayer } from '../models/player';
 import { State } from '../state/nba.reducer';
@@ -9,7 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'player-card',
   templateUrl: './player-card.component.html',
-  styleUrls: ['./player-card.component.scss']
+  styleUrls: ['./player-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class PlayerCardComponent implements OnInit {

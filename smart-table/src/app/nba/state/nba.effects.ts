@@ -14,7 +14,6 @@ export class NbaEffects {
     }
 
     loadNbaFromApi$ = createEffect(() => {
-        console.log('effects');
         return this.actions$.pipe(
             ofType(loadPlayers),
             mergeMap(() =>
