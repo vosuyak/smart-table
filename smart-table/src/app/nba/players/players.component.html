@@ -1,10 +1,18 @@
 <main>
     <section>
         <div *ngIf="players$ | async as players; else notFound">
-            <player-card *ngFor="let player of players" id="{{player.id}}" first_name="{{player.first_name}}"
-                last_name="{{player.last_name}}" height_feet="{{player.height_feet}}" position="{{player.position}}"
-                [team]="player.team" weight_pounds="{{player.weight_pounds}}" (playerTeam)="getTeam($event)"
-                (favoritePlayer)="favoritePlayer($event)"></player-card>
+            <player-card *ngFor="let player of players" 
+                id="{{player.id}}" 
+                first_name="{{player.first_name}}"
+                last_name="{{player.last_name}}" 
+                height_feet="{{player.height_feet}}" 
+                position="{{player.position}}"
+                [team]="player.team" 
+                weight_pounds="{{player.weight_pounds}}" 
+                [player]="player"
+                (playerTeam)="getTeam($event)"
+                (favoritePlayer)="favoritePlayer($event)"
+            ></player-card>
         </div>
         <ng-template #notFound>
             <mat-card>
@@ -14,6 +22,7 @@
             </mat-card>
         </ng-template>
     </section>
+
     <aside>
         <mat-card *ngIf="playersTeam; else notSelected" class="player-card">
             <mat-card-header>
@@ -22,12 +31,11 @@
                 <mat-card-subtitle><b>{{playersTeam.conference}}</b> conference</mat-card-subtitle>
                 <mat-card-subtitle> <b>{{playersTeam.division}}</b> division</mat-card-subtitle>
             </mat-card-header>
-            <mat-card *ngIf="favPlayer != ''"  class="favorite-player"><b>Favorite Player </b>{{favPlayer}}</mat-card>
         </mat-card>
         <ng-template #notSelected>
             <mat-card class="player-card">
                 <mat-card-header>
-                    <mat-card-title>Select a player</mat-card-title>
+                    <mat-card-title>Select a player's team</mat-card-title>
                 </mat-card-header>
             </mat-card>
         </ng-template>

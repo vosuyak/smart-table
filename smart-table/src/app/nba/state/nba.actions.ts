@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IPlayer } from './models/player';
+import { IPlayer } from './../models/player';
 
 export const increment = createAction('[Counter Component] Increment');
 export const decrement = createAction('[Counter Component] Decrement');
@@ -8,8 +8,18 @@ export const reset = createAction('[Counter Component] Reset');
 export const addPlayer = createAction('[Counter Component] Add');
 
 export const loadPlayers = createAction(
-    '[Players Component] Load All Players'
+    '[Nba Component] Load All Players'
 );
+
+export const createPlayer = createAction(
+    '[Create Players] Create Player',
+    props<{player:IPlayer}>()
+); 
+
+export const setFavPlayer = createAction(
+    '[Player Card Component] Add Fav Player',
+    props<{player:IPlayer}>()
+);   
 
 export const loadPlayersSuccess = createAction(
     '[Players API] Load All Players Success',
@@ -17,6 +27,6 @@ export const loadPlayersSuccess = createAction(
 );    
 
 export const loadPlayersFailure = createAction(
-    '[Players Component] Load All Players Fail ',
+    '[Nba Component] Load All Players Fail ',
     props<{error:string}>()
 );  

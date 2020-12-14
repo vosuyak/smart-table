@@ -1,12 +1,15 @@
-<mat-card>
+<mat-card class="favorite-card" *ngIf="player$ | async as player; else notFound">
     <mat-card-header>
-        <mat-card-title>Total Free Agents</mat-card-title>
-        <mat-card-subtitle>Agents: : {{ count$ | async }}</mat-card-subtitle>
+        <mat-card-title>{{player.first_name}} {{player.last_name}}</mat-card-title>
+        <mat-card-subtitle>{{player.height_feet}}'{{player.height_inches}}</mat-card-subtitle>
+        <mat-card-subtitle>{{player.position}}</mat-card-subtitle>
+        <mat-card-subtitle>{{player.team.name}}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-actions>
-        <button mat-button (click)="increment()">Add</button>
-        <button mat-button (click)="decrement()">Remove</button>
-        <button mat-button (click)="reset()">Clear</button>
-    </mat-card-actions>
-
 </mat-card>
+<ng-template #notFound>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>No data</mat-card-title>
+        </mat-card-header>
+    </mat-card>
+</ng-template>

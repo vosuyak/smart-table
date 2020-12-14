@@ -1,0 +1,31 @@
+<div class="utom-form">
+    <form [formGroup]="playerForm" autocomplete="off" (ngSubmit)="create()">
+        <div class="example-container">
+            <mat-form-field appearance="fill">
+                <mat-label>First Name</mat-label>
+                <input formControlName="first_name" name="first_name" matInput>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Last Name</mat-label>
+                <input formControlName="last_name" name="last_name" matInput>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Height Ft.</mat-label>
+                <input formControlName="height_feet" name="height_feet" matInput>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Height Inc.</mat-label>
+                <input formControlName="height_inches" name="height_inches" matInput>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Position</mat-label>
+                <input formControlName="position" name="position" matInput>
+            </mat-form-field>
+        </div>
+        <button  [disabled]="playerForm.invalid" type="submit"  mat-button color="primary">Add</button>
+    </form>
+</div>

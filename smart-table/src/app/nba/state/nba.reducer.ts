@@ -1,15 +1,15 @@
 import { createReducer, on, createFeatureSelector, createSelector } from '@ngrx/store';
-import { increment, decrement, reset, loadPlayersSuccess, loadPlayersFailure } from './counter.actions';
-import { IPlayer } from './models/player';
+import { increment, decrement, reset, loadPlayersSuccess, loadPlayersFailure, createPlayer, setFavPlayer } from './nba.actions';
+import { IPlayer } from './../models/player';
 
 
 
-import * as AppState from '../state/app.state'; 
+import * as AppState from '../../state/app.state'; 
 
 
 // -------------- STATE --------------
 export interface State extends AppState.State {
-    domains:PlayerState;
+    players:PlayerState;
 }
 
 // -------------- SELECTORS --------------
@@ -20,29 +20,40 @@ export const getPlayers = createSelector(
     state => state.players
 )
 
+export const getFavPlayer = createSelector(
+    getProjectsState,
+    state => state.favPlayer
+)
+
 // -------------- STATE --------------
 export interface PlayerState {
   players:IPlayer[];
+  favPlayer:IPlayer;
   error:string;
 }
 const initialState:PlayerState = {
   players: [],
+  favPlayer: null,
   error:''
 }
 
 // -------------- REDUCERS --------------
 export const playerReducer = createReducer<PlayerState>(
   initialState,
-//   on(DomainComponentActions.filterDomainToFront, (state, action) : PlayerState => {
-//       let players = state.players;
-//       let domain = action.player;
-//       let updatedPlayers = players.filter(i => i._id != action.player._id);
-//       updatedPlayers.unshift(player);
-//       return {
-//           ...state,
-//           players: updatedPlayers
-//       }
-//   }),
+  on(createPlayer, (state, action) : PlayerState => {
+      const updatedPlayers = [...state.players, action.player];
+      return {
+          ...state,
+          players: updatedPlayers
+      }
+  }),
+  on(setFavPlayer, (state, action) : PlayerState => {
+    const player = state.players.find(i => i.id == action.player.id);
+    return {
+        ...state,
+        favPlayer: player
+    }
+  }),
   on(loadPlayersSuccess, (state, action) : PlayerState => {
       return {
           ...state,

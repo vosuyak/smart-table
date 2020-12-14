@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError, concatMap, tap } from 'rxjs/operators';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { loadPlayers, loadPlayersSuccess, loadPlayersFailure } from './counter.actions';
-import { NbaService } from './nba.service';
+import { loadPlayers, loadPlayersSuccess, loadPlayersFailure } from './nba.actions';
+import { NbaService } from './../nba.service';
 
 @Injectable()
 
@@ -13,7 +13,7 @@ export class NbaEffects {
         private service: NbaService) {
     }
 
-    loadDomainsFromOrganization$ = createEffect(() => {
+    loadNbaFromApi$ = createEffect(() => {
         console.log('effects');
         return this.actions$.pipe(
             ofType(loadPlayers),

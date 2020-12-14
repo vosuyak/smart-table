@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { increment, decrement, reset } from '../counter.actions';
+import { State, getFavPlayer } from '../state/nba.reducer';
 
 @Component({
   selector: 'favorite-players',
@@ -9,23 +9,19 @@ import { increment, decrement, reset } from '../counter.actions';
   styleUrls: ['./favorite-players.component.scss']
 })
 export class FavoritePlayersComponent implements OnInit {
-  count$: Observable<any>
+  player$: Observable<any>
 
-  constructor(private store: Store<{ count: any }>) {
-    this.count$ = store.select('count');
+  constructor(
+    private store:Store<State>,
+  ) {
   }
+
   ngOnInit(): void {
+    this.getPlayer();
   }
 
-  increment() {
-    this.store.dispatch(increment());
-  }
- 
-  decrement() {
-    this.store.dispatch(decrement());
-  }
- 
-  reset() {
-    this.store.dispatch(reset());
+  // observable to listen to new favorite players coming in
+  getPlayer = () => {
+    this.player$ = this.store.select(getFavPlayer);
   }
 }
