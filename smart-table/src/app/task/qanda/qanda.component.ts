@@ -13,7 +13,7 @@ const ELEMENT_DATA: any[] = [
   {question: 'Angular rxjs?', answer: 'Observables and subscribers used for "nba teams" and "nba players", Behavior subject added to "nba.service.ts" for future use'},
   {question: 'Angular Lazy Loading?', answer: 'Lazy Loading used for all routed pages, to improve performance of initial load, and reduce un-used service calls'},
   {question: 'Angular Architecture?', answer: 'Modulization to group resource responsibility within teams, Shared.module.ts for reusable components within the app exp. "uc-table"'},
-  {question: 'Time Spent? ', answer: '4.5 hrs spent, Majority of the time spent on Architecture, understanding tools provided from Materials API, and defining the complexity of the "uc-table" component'}
+  // {question: 'Time Spent? ', answer: '4.5 hrs spent, Majority of the time spent on Architecture, understanding tools provided from Materials API, and defining the complexity of the "uc-table" component'}
 ]
 
 @Component({

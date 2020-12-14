@@ -1,4 +1,10 @@
 aside{
     position: fixed;
     right: 25px;
+    .player-card{
+        min-height: 170px;
+    }
+    .favorite-player{
+        background-color: #f5ffb6;
+    }
 }

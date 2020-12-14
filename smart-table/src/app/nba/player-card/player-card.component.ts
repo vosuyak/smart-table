@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ITeam } from '../models/team';
+import { IPlayer } from '../models/player';
 
 @Component({
   selector: 'player-card',
@@ -16,6 +17,7 @@ export class PlayerCardComponent implements OnInit {
   @Input() team:ITeam;
   @Input() weight_pounds:string;
   @Output() playerTeam = new EventEmitter<ITeam>();
+  @Output() favoritePlayer = new EventEmitter<string>();
 
   constructor() { }
 
@@ -23,7 +25,11 @@ export class PlayerCardComponent implements OnInit {
   }
 
   getTeam = (value:ITeam) => {
-    value.player_name = `${this.first_name} ${this.last_name}`;
     this.playerTeam.emit(value);
+  } 
+
+  setFavoritePlayer = () => {
+    let name = `${this.first_name} ${this.last_name}`
+    this.favoritePlayer.emit(name);
   }
 }

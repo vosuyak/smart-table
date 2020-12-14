@@ -5,6 +5,9 @@ import { NbaService } from '../nba.service';
 import { IPlayer } from '../models/player';
 import { mergeMap, map, catchError, concatMap } from 'rxjs/operators';
 import { ITeam } from '../models/team';
+import { Store } from '@ngrx/store';
+import { State, getPlayers } from '../counter.reducer';
+import { loadPlayers } from '../counter.actions';
 
 @Component({
   selector: 'nba-players',
@@ -16,25 +19,21 @@ export class PlayersComponent extends Shared implements OnInit, AfterViewInit, O
   sub: Subscription;
   players$:Observable<IPlayer[]>;
   playersTeam:ITeam;
-  testData:any = [];
-  columns: any[] = [
-    {key:'id'}, 
-    {key:'first_name'}, 
-    {key:'height_feet'}, 
-    {key:'height_inches'},
-    {key:'last_name'}, 
-    {key:'position'}
-  ];
+  favPlayer:string = '';
 
-  constructor(private service:NbaService, private ref: ChangeDetectorRef) {
+  constructor(
+    private service:NbaService, 
+    private store:Store<State>,
+    private ref: ChangeDetectorRef) {
     super()
+    this.store.dispatch(loadPlayers());
   }
 
   ngOnInit(): void {
+    this.getPlayers();
   }
 
   ngAfterViewInit() {
-    this.getPlayers();
   }
 
   ngOnDestroy(): void {
@@ -42,12 +41,14 @@ export class PlayersComponent extends Shared implements OnInit, AfterViewInit, O
 
   // api call, stores response into variable
   getPlayers = () => {
-    this.players$ = this.service.get(`/api/v1/players`).pipe(
-      map( i => i.data)
-    )
+    this.players$ = this.store.select(getPlayers);
   }
 
   getTeam = (value) => {
     this.playersTeam = value;
+  }
+
+  favoritePlayer = (value) =>{
+    this.favPlayer = value;
   }
 }

@@ -6,8 +6,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './core/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
+import { environment } from "./../environments/environment";
+
 import { StoreModule } from '@ngrx/store';
-import { counterReducer } from './nba/counter.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 @NgModule({
   declarations: [
     AppComponent
@@ -17,9 +20,10 @@ import { counterReducer } from './nba/counter.reducer';
     HttpClientModule,
     MaterialModule,
     AppRoutingModule,
-    StoreModule.forRoot({ 
-      count: counterReducer
-     }),
+    // -------------- STORE, DEV TOOLS & EFFECTS --------------
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([]),
     BrowserAnimationsModule
   ],
   providers: [],
